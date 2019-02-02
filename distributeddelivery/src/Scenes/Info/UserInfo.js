@@ -1,19 +1,27 @@
 import React from 'react'
-import Places from './Places'
+import { Parallax, ParallaxLayer } from 'react-spring/addons'
+import Geosuggest from './Places'
 import './info.css'
+const url = (name, wrap = false) => `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${wrap ? ')' : ''}`
 
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
-   
+
   };
 
+
   render() {
+ 
     return (
-      <div className='container'>
-        <p className='title'>I'm going from</p>
-        <Places></Places>
-      </div>
+      <ParallaxLayer
+        offset={1}
+        speed={0.1}
+        // onClick={() => this.props.onClick()}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column', }}>
+        <p className="infoTitle">I'm coming from</p>
+        <Geosuggest/>
+      </ParallaxLayer>
     );
   }
 }
