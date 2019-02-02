@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Intro from './Scenes/Intro/Intro'
 import UserFlow from './Userflow'
 import * as serviceWorker from './serviceWorker';
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import "./input.css";
 
 export default class Input extends React.Component {
@@ -9,24 +8,29 @@ export default class Input extends React.Component {
     this.state = {
       active: (props.locked && props.active) || false,
       value: props.value || "",
-      error: props.error || "",
       label: props.label || "Label"
     };
   }
 
   changeValue(event) {
     const value = event.target.value;
-    this.setState({ value, error: "" });
+    this.setState({ value });
   }
 
   handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.onSubmit()
+    }
     if (event.which === 13) {
       this.setState({ value: this.props.predicted });
     }
   }
+  onSubmit(){
+    this.props.onSubmit(this.state.value)
+  }
 
   render() {
-    const { active, value, error, label } = this.state;
+    const { active, value, label } = this.state;
     const { locked } = this.props;
     const fieldClassName = `field ${(locked ? active : active || value) &&
       "active"} ${locked && !active && "locked"}`;
@@ -40,10 +44,11 @@ export default class Input extends React.Component {
           placeholder={label}
           onChange={this.changeValue.bind(this)}
           onKeyPress={this.handleKeyPress.bind(this)}
+          onSubmit={this.onSubmit}
+        
           onFocus={() => !locked && this.setState({ active: true })}
           onBlur={() => !locked && this.setState({ active: false })}
           {...this.props}
-          onSubmit={() => this.props.onSubmit(this.state.value)}
         />
     );
   }

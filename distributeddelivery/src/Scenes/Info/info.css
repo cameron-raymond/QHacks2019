@@ -19,16 +19,6 @@
 .subtitle{
   font-style: italic
 }
-.button{
-  font-size: 100px;
-  margin-right: 20px;
-  margin-left: 20px;
-  font-weight: 500;
-}
-.button :hover{
-  color: #000;
-  transition: 0.5s;
-}
 
 .options{
   display: flex;

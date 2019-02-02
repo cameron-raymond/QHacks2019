@@ -37,7 +37,6 @@ export default class LocationSearchInput extends React.Component {
             <Input
               {...getInputProps({
                 placeholder: 'Search Places ...',
-                className: 'geosuggest__input',
               })}
             />
             <div className="autocomplete-dropdown-container">

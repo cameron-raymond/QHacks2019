@@ -1,21 +1,12 @@
 import React from 'react'
 import { ParallaxLayer } from 'react-spring/addons'
 import Input from '../../Components/TextInput/Input'
-const url = (name, wrap = false) => `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${wrap ? ')' : ''}`
 
 export default class Map extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state={
-
-        }
-    };
-
-
     setSpace = (val) => {
         this.props.onClick()
-        console.log(val)
-      }
+        this.props.updateState(val)
+    }
     
     render() {
         return (

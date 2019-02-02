@@ -1,8 +1,7 @@
 import React from 'react'
-import { Parallax, ParallaxLayer } from 'react-spring/addons'
+import { ParallaxLayer } from 'react-spring/addons'
 import Geosuggest from './Places'
 import './info.css'
-const url = (name, wrap = false) => `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${wrap ? ')' : ''}`
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -16,12 +15,14 @@ export default class Map extends React.Component {
   comingFrom = (val) => {
     this.setState({ comingFrom: val });
     if (this.state.goingTo && this.state.comingFrom){
+      this.props.updateState([this.state.comingFrom,this.state.goingTo])
       this.props.onClick();
     }
   }
   goingTo = (val) => {
     this.setState({ goingTo: val });
     if (this.state.goingTo && this.state.comingFrom){
+      this.props.updateState([this.state.comingFrom,this.state.goingTo])
       this.props.onClick();
     }
   }

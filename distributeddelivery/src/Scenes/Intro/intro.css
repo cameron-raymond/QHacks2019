@@ -12,11 +12,12 @@
 
 .title{
   font-size: 70px;
-  text-align: center
+  text-align: center;
 }
 .subtitle{
   font-style: italic
 }
+
 .button{
   font-size: 110px;
   margin-right: 20px;
@@ -24,7 +25,7 @@
   font-weight: 500;
 }
 .button :hover{
-  color: #000;
+  color: #707070;
   transition: 0.5s;
 }
 

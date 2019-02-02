@@ -1,17 +1,20 @@
 import React from 'react'
+import { Spring } from 'react-spring'
 import './intro.css'
 
 export default class Map extends React.Component {
-  constructor(props) {
-    super(props);
-   
-  };
 
   render() {
     return (
-      <div className='button' onClick={this.props.onClick}>
-        <a>{this.props.children}</a>
-      </div>
+      <Spring
+        from={{ opacity: 0 }}
+        to={{ opacity: 1 }}
+        friction={10}>
+        {props => <div className='button' onClick={this.props.onClick} style={props}>
+        <p>{this.props.children}</p>
+      </div>}
+      </Spring>
+      
     );
   }
 }
