@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Intro from './Scenes/Intro/Intro'
 import NumItems from './Scenes/NumItems/NumItems'
-import UserInfo from './Scenes/Info/UserInfo'
+import UserInfoDriver from './Scenes/Info/UserInfoDriver'
+import UserInfoSender from './Scenes/Info/UserInfoSender'
 import DateRangeDriver from './Scenes/DateRange/DateRangeDriver'
 import DatRangeSender from './Scenes/DateRange/DateRangeSender'
 import { Parallax, ParallaxLayer } from 'react-spring/addons'
@@ -46,7 +47,8 @@ export default class App extends React.Component {
                 <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: '#909090' }} />
                 <ParallaxLayer offset={3} speed={1} style={{ backgroundColor: '#87BCDE' }} />
                 <Intro onClick={() => this.parallax.scrollTo(1)} updateState={this.updateUser} />
-                <UserInfo onClick={() => this.parallax.scrollTo(2)} updateState={this.updateLocations} />
+                {this.state.sendOrDrive === 'sending' ? <UserInfoSender onClick={() => this.parallax.scrollTo(2)} updateState={this.updateLocations} /> : <UserInfoDriver onClick={() => this.parallax.scrollTo(2)} updateState={this.updateLocations} />}
+                
                 <NumItems onClick={() => this.parallax.scrollTo(3)} updateState={this.updateSpace} />
                 {this.state.sendOrDrive === 'sending' ? <DatRangeSender/> : <DateRangeDriver/>}
 
