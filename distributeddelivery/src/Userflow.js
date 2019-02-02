@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Intro from './Scenes/Intro/Intro'
+import NumItems from './Scenes/NumItems/NumItems'
 import UserInfo from './Scenes/Info/UserInfo'
 import { Parallax, ParallaxLayer } from 'react-spring/addons'
 
@@ -17,14 +18,18 @@ export default class App extends React.Component {
   render() {
     return (
 
-      <Parallax ref={ref => (this.parallax = ref)} pages={2}>
-        <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: '#805E73' }} />
-        {/* <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: '#87BCDE' }} /> */}
-
+      <Parallax ref={ref => (this.parallax = ref)} pages={4}>
         <ParallaxLayer offset={0} speed={0} factor={3} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} />
+        <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: '#805E73' }} />
+        <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: '#909090' }} />
+        <ParallaxLayer offset={3} speed={1} style={{ backgroundColor: '#87BCDE' }} />
 
         <Intro onClick={() => this.parallax.scrollTo(1)}/>
-        <UserInfo  onClick={() => this.parallax.scrollTo(0)}/>
+        <UserInfo  onClick={() => this.parallax.scrollTo(2)}/>
+        <NumItems onClick={() => this.parallax.scrollTo(3)}/>
+
+
+        {/*BACKGROUND IMAGES*/}
         <ParallaxLayer offset={1.3} speed={-0.3} style={{ pointerEvents: 'none' }}>
           <img src={url('satellite4')} style={{ width: '15%', marginLeft: '70%' }} />
         </ParallaxLayer>
@@ -50,33 +55,24 @@ export default class App extends React.Component {
           <img src={url('cloud')} style={{ display: 'block', width: '10%', marginLeft: '80%' }} />
         </ParallaxLayer>
 
-        {/* <ParallaxLayer offset={2.6} speed={0.4} style={{ opacity: 0.6 }}>
+        <ParallaxLayer offset={2.6} speed={0.4} style={{ opacity: 0.6 ,pointerEvents: 'none' }}>
           <img src={url('cloud')} style={{ display: 'block', width: '20%', marginLeft: '5%' }} />
           <img src={url('cloud')} style={{ display: 'block', width: '15%', marginLeft: '75%' }} />
-        </ParallaxLayer> */}
+        </ParallaxLayer>
 
-        {/* <ParallaxLayer offset={2.5} speed={-0.4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+        <ParallaxLayer offset={3} speed={0.4} style={{ opacity: 0.4,pointerEvents: 'none' }}>
+          <img src={url('cloud')} style={{ display: 'block', width: '20%', marginLeft: '60%' }} />
+          <img src={url('cloud')} style={{ display: 'block', width: '25%', marginLeft: '30%' }} />
+          <img src={url('cloud')} style={{ display: 'block', width: '10%', marginLeft: '80%' }} />
+        </ParallaxLayer>
+        <ParallaxLayer offset={3.5} speed={-0.4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
           <img src={url('earth')} style={{ width: '60%' }} />
-        </ParallaxLayer> */}
+        </ParallaxLayer>
 
-        {/* <ParallaxLayer
-          offset={2}
-          speed={-0.3}
-          style={{
-            backgroundSize: '80%',
-            backgroundPosition: 'center',
-            backgroundImage: url('clients', true)
-          }}
-        /> */}
+       
        
 
-        {/* <ParallaxLayer
-          offset={2}
-          speed={-0}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          onClick={() => this.parallax.scrollTo(0)}>
-          <img src={url('clients-main')} style={{ width: '40%' }} />
-        </ParallaxLayer> */}
+       
       </Parallax>
     )
   }

@@ -17,7 +17,6 @@ export default class Map extends React.Component {
       <ParallaxLayer
       offset={0}
       speed={0.1}
-      // onClick={this.props.onClick}
       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection:'column' }}>
       <p className="title">Welcome to Distributed Delivery</p>
         <br/>
