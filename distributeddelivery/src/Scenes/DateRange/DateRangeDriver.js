@@ -34,7 +34,7 @@ export default class Map extends React.Component {
             >
                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexDirection: 'row' }}>
                     <p className="infoTitle">
-                        I'm leaving between
+                        I'm leaving on
                     <Input
                             id={1}
                             label={this.getDate()}
@@ -43,16 +43,6 @@ export default class Map extends React.Component {
                             active={false}
                             onSubmit={this.setSpace}
                         />
-                    and 
-                    <Input
-                            id={1}
-                            label={this.getDate()}
-                            predicted="small"
-                            locked={false}
-                            active={false}
-                            onSubmit={this.setSpace}
-                        />
-
                     </p>
                 </div>
                 

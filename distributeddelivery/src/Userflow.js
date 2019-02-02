@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom'
 import Intro from './Scenes/Intro/Intro'
 import NumItems from './Scenes/NumItems/NumItems'
 import UserInfo from './Scenes/Info/UserInfo'
-import DateRange from './Scenes/DateRange/DateRange'
+import DateRangeDriver from './Scenes/DateRange/DateRangeDriver'
+import DatRangeSender from './Scenes/DateRange/DateRangeSender'
 import { Parallax, ParallaxLayer } from 'react-spring/addons'
 
 // Little helpers ...
@@ -36,6 +37,7 @@ export default class App extends React.Component {
     }
 
     render() {
+        console.log(this.state.sendOrDrive)
         return (
 
             <Parallax ref={ref => (this.parallax = ref)} pages={4}>
@@ -46,13 +48,20 @@ export default class App extends React.Component {
                 <Intro onClick={() => this.parallax.scrollTo(1)} updateState={this.updateUser} />
                 <UserInfo onClick={() => this.parallax.scrollTo(2)} updateState={this.updateLocations} />
                 <NumItems onClick={() => this.parallax.scrollTo(3)} updateState={this.updateSpace} />
-                <DateRange/>
+                {this.state.sendOrDrive === 'sending' ? <DatRangeSender/> : <DateRangeDriver/>}
 
                 {/*BACKGROUND IMAGES*/}
+                <ParallaxLayer offset={0.2} speed={-0.3} style={{ pointerEvents: 'none' }}>
+                    <img alt={""} src={url('satellite2')} style={{ width: '15%', marginLeft: '15%' }} />
+                </ParallaxLayer>
+                <ParallaxLayer offset={0.5} speed={-0.3} style={{ pointerEvents: 'none' }}>
+                    <img alt={""} src={url('satellite3')} style={{ width: '15%', marginLeft: '80%' }} />
+                </ParallaxLayer>
+
                 <ParallaxLayer offset={1.3} speed={-0.3} style={{ pointerEvents: 'none' }}>
                     <img alt={""} src={url('satellite4')} style={{ width: '15%', marginLeft: '70%' }} />
                 </ParallaxLayer>
-
+               
                 <ParallaxLayer offset={1} speed={0.8} style={{ opacity: 0.1, pointerEvents: 'none' }}>
                     <img alt={""} src={url('cloud')} style={{ display: 'block', width: '20%', marginLeft: '55%' }} />
                     <img alt={""} src={url('cloud')} style={{ display: 'block', width: '10%', marginLeft: '15%' }} />
