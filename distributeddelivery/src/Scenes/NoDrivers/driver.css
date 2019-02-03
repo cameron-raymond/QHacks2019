@@ -1,0 +1,13 @@
+.driverTitle{
+    font-size: 70px;
+    color: #e0e0e0;
+    text-align: center
+}
+
+@media screen and (max-width: 769px) {
+    .driverTitle{
+      font-size: 40px;
+      color: #e0e0e0;
+      text-align: center;
+    }  
+}
