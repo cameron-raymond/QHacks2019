@@ -1,6 +1,6 @@
 //const driverList = document.querySelector('#driver-list')
 //const form = document.querySelector('#add-driver-form')
-
+var firebase = require('firebase')
 var config = {
     apiKey: "AIzaSyDHaDZN8cLM49JxSAc0mg0kMrHrddMlbJQ",
     authDomain: "distributeddelivery.firebaseapp.com",
@@ -25,23 +25,24 @@ db.settings({ timestampsInSnapshots: true });
  * }
  */
 export function handleForm(aJson) {
-    sizeNum = convertSize(aJson.space);
-    if (aJson.sendOrDriving === "sending") {
-        driverData = [];
-        driverData = getDriver(aJson.locations, sizeNum, aJson.time);
+    console.log(aJson)
+    var sizeNum = convertSize(aJson.space);
+    if (aJson.sendOrDrive === "sending") {
+        console.log('p1')
+        var driverData = [];
+        driverData = getDriver(aJson.locations, sizeNum, aJson.dates);
         //get amount
         return driverData;
     }
 
-    if (aJson.sendOrDriving === "driving") {
+    if (aJson.sendOrDrive === "driving") {
 
         db.collection('drivers').add({
-            firstName: aJson.firstName,
-            lastName: aJson.lastName,
-            travelLocation: new firebase.firestore.GeoPoint(parseFloat(locations[0].lat), parseFloat(locations[0].long)),
-            EndLocation: new firebase.firestore.GeoPoint(parseFloat(locations[1].lat), parseFloat(locations[1].long)),
+            name: aJson.name,
+            travelLocation: new firebase.firestore.GeoPoint(aJson.locations[0].lat, aJson.locations[0].lng),
+            EndLocation: new firebase.firestore.GeoPoint(aJson.locations[1].lat, aJson.locations[1].lng),
             size: parseInt(sizeNum),
-            travelDate: aJson.time
+            travelDate: aJson.dates
         })
     }
     // console.log(aJson)
@@ -145,19 +146,20 @@ function getDriver(locations, size, timePeriod) {
 
     //db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
     // console.log(doc.data());
-    driverInfo = []
-    senderStart = new Date(timePeriod[0])
-    senderEnd = new Date(timePeriods[1])
-    senderSize = size
-    senderStartLoc = locations[0]
-    senderEndLoc = location[1]
+    var driverInfo = []
+    console.log(timePeriod)
+    var senderStart = new Date(timePeriod[0])
+    var senderEnd = new Date(timePeriod[1])
+    var senderSize = size
+    var senderStartLoc = locations[0]
+    var senderEndLoc = locations[1]
+    var filteredData = []
 
     var goodDrivers = db.collection('drivers').where('travelDate', '<=', senderEnd).where('travelDate', '>=', senderStart);
     goodDrivers.get().then(function (querySnapShot) {
-        var filteredData = []
         querySnapShot.forEach((doc) => {
             console.log(doc.data().travelLocation)
-            console.log(doc.data().firstName)
+            console.log(doc.data().name)
             console.log(doc.data().size)
             console.log(senderSize)
             if (doc.data().size >= senderSize && distance(doc.data().travelLocation._lat, doc.data().travelLocation._long, senderStartLoc._lat, senderStartLoc._long, 'K') && distance(doc.data().EndLocation._lat, doc.data().EndLocation._long, senderEndLoc._lat, senderEndLoc._long, 'K')) {
@@ -170,31 +172,32 @@ function getDriver(locations, size, timePeriod) {
 
     driverInfo.push(filteredData.length)
     var newest = 0;
-    var driverName = []
+    var driverName 
     filteredData.forEach(function (element) {
-        if (newest == 0) {
+        console.log(newest)
+        if (newest === 0) {
             newest = element.data().travelDate;
-            driverName.push(element.data().name[0]);
-            driverName.push(element.data().name[1]);
+            driverName = element.data().name;
         }
         else if (element.data().travelDate < newest) {
             newest = element.data().travelDate;
-            driverName.push(element.data().name[0]);
-            driverName.push(element.data().name[1]);
+            driverName = element.data().name;
         }
     })
-    driverInfo.push(driverName[0])
-    driverInfo.push(driverName[1])
+    driverInfo.push(driverName)
     return driverInfo
 }
 
 
 
 function distance(lat1, lon1, lat2, lon2, unit) {
-    if ((lat1 == lat2) && (lon1 == lon2)) {
+    lat1 = parseFloat(lat1);
+    lat2 = parseFloat(lat2);
+    lon1 = parseFloat(lon1);
+    lon2 = parseFloat(lon2);
+    if ((lat1 === lat2) && (lon1 === lon2)) {
         return 1;
-    }
-    else {
+    } else {
         var radlat1 = Math.PI * lat1 / 180;
         var radlat2 = Math.PI * lat2 / 180;
         var theta = lon1 - lon2;
@@ -206,8 +209,8 @@ function distance(lat1, lon1, lat2, lon2, unit) {
         dist = Math.acos(dist);
         dist = dist * 180 / Math.PI;
         dist = dist * 60 * 1.1515;
-        if (unit == "K") { dist = dist * 1.609344 }
-        if (unit == "N") { dist = dist * 0.8684 }
+        if (unit === "K") { dist = dist * 1.609344 }
+        if (unit === "N") { dist = dist * 0.8684 }
         console.log(dist)
         if (dist < 10)
             return 1;
@@ -231,7 +234,6 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 // //         })
 // //         return goodDrivers
 // //     })
-
 
 // // }
 
