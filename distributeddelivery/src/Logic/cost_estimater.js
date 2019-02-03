@@ -1,6 +1,6 @@
 firebase.initializeApp(config);
 const db = firebase.firestore();
-const price_per_mile = 0.1*1.6;
+const price_per_km = 0.1;
 const puppeteer = require('puppeteer');
 var request = new XMLHttpRequest();
 
@@ -12,7 +12,7 @@ export function read_db (){
 //Access trip information from firebase and determine frequency/availability of trips
 export function demand_identifier(drivers_list)
 {
-    var num_shippers = shippers.length;
+    var num_shippers = drivers_list.length;
     if (num_shippers >= 5) {
         price_multpilier = .8;
     } else if (num_shippers >= 10) {
@@ -47,7 +47,7 @@ export async function distance_estimator(long_A=40.6655101, lat_A=-73.8918896999
 return distance;
 }
 
-export function calculator(drivers_list)
+export function calculator(drivers_list, long, lat)
 {
-    return cost = distance_estimator()*price_per_km*demand_identifier(drivers_list.length);
+    return cost = distance_estimator(long, lat)*price_per_km*demand_identifier(drivers_list.length);
 }
