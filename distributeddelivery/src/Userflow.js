@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Intro from './Scenes/Intro/Intro'
 import NumItems from './Scenes/NumItems/NumItems'
 import UserInfoDriver from './Scenes/Info/UserInfoDriver'
