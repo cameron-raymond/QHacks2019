@@ -1,17 +1,17 @@
-// const driverList = document.querySelector('#driver-list')
-// const form = document.querySelector('#add-driver-form')
+//const driverList = document.querySelector('#driver-list')
+//const form = document.querySelector('#add-driver-form')
 
-// var config = {
-//     apiKey: "AIzaSyDHaDZN8cLM49JxSAc0mg0kMrHrddMlbJQ",
-//     authDomain: "distributeddelivery.firebaseapp.com",
-//     databaseURL: "https://distributeddelivery.firebaseio.com",
-//     projectId: "distributeddelivery",
-//     storageBucket: "distributeddelivery.appspot.com",
-//     messagingSenderId: "463943185639"
-// };
-// firebase.initializeApp(config);
-// const db = firåebase.firestore();
-// db.settings({ timestampsInSnapshots: true });
+var config = {
+    apiKey: "AIzaSyDHaDZN8cLM49JxSAc0mg0kMrHrddMlbJQ",
+    authDomain: "distributeddelivery.firebaseapp.com",
+    databaseURL: "https://distributeddelivery.firebaseio.com",
+    projectId: "distributeddelivery",
+    storageBucket: "distributeddelivery.appspot.com",
+    messagingSenderId: "463943185639"
+};
+firebase.initializeApp(config);
+const db = firebase.firestore();
+db.settings({ timestampsInSnapshots: true });
 
 /**
  * 
@@ -24,10 +24,38 @@
  *      time: [begin date, end date] or date
  * }
  */
-export function findDriver(aJson){
-    console.log(aJson)
+export function handleForm(aJson) {
+    sizeNum = convertSize(aJson.space);
+    if (aJson.sendOrDriving === "sending") {
+        driverData = [];
+        driverData = getDriver(aJson.locations, sizeNum, aJson.time);
+        //get amount
+        return driverData;
+    }
+
+    if (aJson.sendOrDriving === "driving") {
+
+        db.collection('drivers').add({
+            firstName: aJson.firstName,
+            lastName: aJson.lastName,
+            travelLocation: new firebase.firestore.GeoPoint(parseFloat(locations[0].lat), parseFloat(locations[0].long)),
+            EndLocation: new firebase.firestore.GeoPoint(parseFloat(locations[1].lat), parseFloat(locations[1].long)),
+            size: parseInt(sizeNum),
+            travelDate: aJson.time
+        })
+    }
+    // console.log(aJson)
 }
 
+
+function convertSize(size) {
+    if (size === 'small')
+        return 1;
+    if (size === 'medium')
+        return 2;
+    if (size === 'large')
+        return 3;
+}
 // // getting data
 
 
@@ -113,87 +141,82 @@ export function findDriver(aJson){
 //     });
 // })
 
+function getDriver(locations, size, timePeriod) {
 
-// var senderTimeframe = [];
+    //db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
+    // console.log(doc.data());
+    driverInfo = []
+    senderStart = new Date(timePeriod[0])
+    senderEnd = new Date(timePeriods[1])
+    senderSize = size
+    senderStartLoc = locations[0]
+    senderEndLoc = location[1]
 
+    var goodDrivers = db.collection('drivers').where('travelDate', '<=', senderEnd).where('travelDate', '>=', senderStart);
+    goodDrivers.get().then(function (querySnapShot) {
+        var filteredData = []
+        querySnapShot.forEach((doc) => {
+            console.log(doc.data().travelLocation)
+            console.log(doc.data().firstName)
+            console.log(doc.data().size)
+            console.log(senderSize)
+            if (doc.data().size >= senderSize && distance(doc.data().travelLocation._lat, doc.data().travelLocation._long, senderStartLoc._lat, senderStartLoc._long, 'K') && distance(doc.data().EndLocation._lat, doc.data().EndLocation._long, senderEndLoc._lat, senderEndLoc._long, 'K')) {
+                //console.log('works')
+                filteredData.push(doc.data())
+            }
+        })
+        console.log(filteredData)
+    })
 
-// var drivers = db.collection('drivers');
-// drivers.get().then(function (querySnapShot) {
-//     querySnapShot.forEach((doc) => {
-//         //senderTimeframe[0]=doc.data.StartTime;
-//         ///console.log(doc.data().EndTime)
-//         //console.log(doc.data())
-//     })
-// })
-
-
-
-// // var sender = db.collection('senders').doc('4u0PpiK4LqC6wMxhb1nF');
-// // sender.get().then(snapshot => {
-// //     snapshot.forEach(doc => {
-// //         console.log(snap.data)
-// //     });
-// // });
-
-// var newSender;
-// db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
-//     // console.log(doc.data());
-//     senderStart = new Date(doc.data().StartTime)
-//     senderEnd = new Date(doc.data().EndTime)
-//     senderSize = doc.data().size
-//     senderStartLoc = doc.data().SendLocation
-//     senderEndLoc = doc.data().EndLocation
-    
-//     var goodDrivers = db.collection('drivers').where('travelDate', '<=', senderEnd).where('travelDate', '>=', senderStart);
-//     goodDrivers.get().then(function (querySnapShot) {
-//         var filteredData = []
-//         querySnapShot.forEach((doc) => {
-//             console.log(doc.data().travelLocation)
-//             console.log(doc.data().firstName)
-//             console.log(doc.data().size)
-//             console.log(senderSize)
-//             if(doc.data().size >= senderSize  && distance(doc.data().travelLocation._lat,doc.data().travelLocation._long,senderStartLoc._lat,senderStartLoc._long,'K') && distance(doc.data().EndLocation._lat,doc.data().EndLocation._long,senderEndLoc._lat,senderEndLoc._long,'K')){
-//                 console.log('works')
-//                 filteredData.push(doc.data())
-//         }
-//         })
-//         console.log(filteredData)
-        
-//     })
-
-
-//     //drivers = getDrivers(newSender);
-//     //console.log(senderStart)
-// })
+    driverInfo.push(filteredData.length)
+    var newest = 0;
+    var driverName = []
+    filteredData.forEach(function (element) {
+        if (newest == 0) {
+            newest = element.data().travelDate;
+            driverName.push(element.data().name[0]);
+            driverName.push(element.data().name[1]);
+        }
+        else if (element.data().travelDate < newest) {
+            newest = element.data().travelDate;
+            driverName.push(element.data().name[0]);
+            driverName.push(element.data().name[1]);
+        }
+    })
+    driverInfo.push(driverName[0])
+    driverInfo.push(driverName[1])
+    return driverInfo
+}
 
 
-//     function distance(lat1, lon1, lat2, lon2, unit) {
-//         if ((lat1 == lat2) && (lon1 == lon2)) {
-//             return 1;
-//         }
-//         else {
-//             var radlat1 = Math.PI * lat1/180;
-//             var radlat2 = Math.PI * lat2/180;
-//             var theta = lon1-lon2;
-//             var radtheta = Math.PI * theta/180;
-//             var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-//             if (dist > 1) {
-//                 dist = 1;
-//             }
-//             dist = Math.acos(dist);
-//             dist = dist * 180/Math.PI;
-//             dist = dist * 60 * 1.1515;
-//             if (unit=="K") { dist = dist * 1.609344 }
-//             if (unit=="N") { dist = dist * 0.8684 }
-//             console.log(dist)
-//             if(dist<10)
-//                 return 1;
-//             else
-//                 return 0;
-//         }
 
-//     }
-  
+function distance(lat1, lon1, lat2, lon2, unit) {
+    if ((lat1 == lat2) && (lon1 == lon2)) {
+        return 1;
+    }
+    else {
+        var radlat1 = Math.PI * lat1 / 180;
+        var radlat2 = Math.PI * lat2 / 180;
+        var theta = lon1 - lon2;
+        var radtheta = Math.PI * theta / 180;
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        if (dist > 1) {
+            dist = 1;
+        }
+        dist = Math.acos(dist);
+        dist = dist * 180 / Math.PI;
+        dist = dist * 60 * 1.1515;
+        if (unit == "K") { dist = dist * 1.609344 }
+        if (unit == "N") { dist = dist * 0.8684 }
+        console.log(dist)
+        if (dist < 10)
+            return 1;
+        else
+            return 0;
+    }
+
+}
+
 
 // // function getDrivers(Sender){
 // //     senderStart = new date(sender.data().StartTime);
@@ -208,6 +231,7 @@ export function findDriver(aJson){
 // //         })
 // //         return goodDrivers
 // //     })
+
 
 // // }
 

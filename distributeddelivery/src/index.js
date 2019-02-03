@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import UserFlow from './Userflow'
-import {findDriver} from './Logic/app'
+import {handleForm} from './Logic/app'
 import * as serviceWorker from './serviceWorker';
 import DriverSuccess from './Scenes/DriverSuccess/DriverSuccess';
 import SenderConfirmation from './Scenes/SenderConfirmation/SenderConfirmation'
@@ -22,7 +22,7 @@ class App extends React.Component{
 
     addSender = () => {
         if (this.state.finishedForm){
-            var info = findDriver(this.state.finishedForm);
+            var info = handleForm(this.state.finishedForm);
         }
     }
 
