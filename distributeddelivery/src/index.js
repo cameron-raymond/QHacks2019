@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import UserFlow from './Userflow'
 import * as serviceWorker from './serviceWorker';
+import DriverSuccess from './Scenes/DriverSuccess/DriverSuccess';
+
 class App extends React.Component{
     constructor(props) {
         super(props);
@@ -17,7 +19,7 @@ class App extends React.Component{
 
     render(){
         if (this.state.finishedForm){
-            return this.state.sendOrDrive ? <div><p>sending</p></div> : <div><p>driving</p></div>
+            return this.state.sendOrDrive ? <div><p>sending</p></div> : <DriverSuccess/>
         }
         return <UserFlow onFinished={this.changeFlow.bind(this)}/>
     }

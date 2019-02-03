@@ -9,6 +9,7 @@ export default class Map extends React.Component {
     }
     
     render() {
+        
         return (
             <ParallaxLayer
                 offset={2}
@@ -17,7 +18,7 @@ export default class Map extends React.Component {
                 >
                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexDirection: 'row' }}>
                     <p className="infoTitle">
-                        I need a
+                        I {this.props.sender ? "need" : "have"} a
                     <Input
                             id={1}
                             label="small, medium, large"

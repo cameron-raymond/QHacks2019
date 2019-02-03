@@ -61,7 +61,9 @@ export default class UserFlow extends React.Component {
                 </ParallaxLayer>
                 {this.state.sendOrDrive === 'sending' ? <UserInfoSender onClick={() => this.parallax.scrollTo(2)} updateState={this.updateLocations} /> : <UserInfoDriver onClick={() => this.parallax.scrollTo(2)} updateState={this.updateLocations} />}
                 
-                <NumItems onClick={() => this.parallax.scrollTo(3)} updateState={this.updateSpace} />
+                {this.state.sendOrDrive === 'sending' ? <NumItems onClick={() => this.parallax.scrollTo(3)} updateState={this.updateSpace} sender={true}/> :<NumItems onClick={() => this.parallax.scrollTo(3)} updateState={this.updateSpace} sender={false}/>}
+
+                
                 {/* Earth needs to be behind everything */}
                 <ParallaxLayer offset={3.8} speed={-0.4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
                     <img alt={""} src={url('earth')} style={{ width: '60%' }} />
