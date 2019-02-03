@@ -25,10 +25,8 @@ db.settings({ timestampsInSnapshots: true });
  * }
  */
 export function handleForm(aJson) {
-    console.log(aJson)
-    var sizeNum = convertSize(aJson.space);
+    var sizeNum = convertSize(aJson.size);
     if (aJson.sendOrDrive === "sending") {
-        console.log('p1')
         var driverData = [];
         driverData = getDriver(aJson.locations, sizeNum, aJson.dates);
         //get amount
@@ -36,13 +34,12 @@ export function handleForm(aJson) {
     }
 
     if (aJson.sendOrDrive === "driving") {
-
         db.collection('drivers').add({
             name: aJson.name,
             travelLocation: new firebase.firestore.GeoPoint(aJson.locations[0].lat, aJson.locations[0].lng),
             EndLocation: new firebase.firestore.GeoPoint(aJson.locations[1].lat, aJson.locations[1].lng),
             size: parseInt(sizeNum),
-            travelDate: aJson.dates
+            travelDate: aJson.timeFrame
         })
     }
     // console.log(aJson)
@@ -351,7 +348,6 @@ function getDriver(locations, size, timePeriod) {
     //db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
     // console.log(doc.data());
     var driverInfo = []
-    console.log(timePeriod)
     var senderStart = new Date(timePeriod[0])
     var senderEnd = new Date(timePeriod[1])
     var senderSize = size
@@ -362,10 +358,7 @@ function getDriver(locations, size, timePeriod) {
     var goodDrivers = db.collection('drivers').where('travelDate', '<=', senderEnd).where('travelDate', '>=', senderStart);
     goodDrivers.get().then(function (querySnapShot) {
         querySnapShot.forEach((doc) => {
-            console.log(doc.data().travelLocation)
-            console.log(doc.data().name)
-            console.log(doc.data().size)
-            console.log(senderSize)
+           
             if (doc.data().size >= senderSize && distance(doc.data().travelLocation._lat, doc.data().travelLocation._long, senderStartLoc._lat, senderStartLoc._long, 'K') && distance(doc.data().EndLocation._lat, doc.data().EndLocation._long, senderEndLoc._lat, senderEndLoc._long, 'K')) {
                 //console.log('works')
                 filteredData.push(doc.data())

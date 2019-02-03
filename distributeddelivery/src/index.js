@@ -16,34 +16,24 @@ class App extends React.Component{
         }
     };
     changeFlow = (val) => {
-        val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: val}) : this.setState({sendOrDrive: false,finishedForm: true})
+        val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: val}) : this.setState({sendOrDrive: false,finishedForm: val})
     }
 
-    addSender = () => {
-        if (this.state.finishedForm){
-            var info = handleForm(this.state.finishedForm);
-        }
-    }
+    // addSender = () => {
+    //     if (this.state.finishedForm){
+    //         var testData = {
+    //             name: "Cam",
+    //             sendOrDrive: "sending",
+    //             locations: [{lat:,lng:}]
+    //             ,
+    //         }
+    //         var info = handleForm(testData);
+    //     }
+    // }
 
     render(){
-        var dummyData = {
-            name: "cam",
-            sendOrDrive: "sending",
-            locations: [{lat:44.228273,lng:	-76.496552 },{lat:43.660234,lng:-79.381492 }],
-            size: "large",
-            dates:["Feb 17, 2019","Feb 28, 2019"]
-        }
-
-        var dummyDrive = {
-            name: "Wham",
-            sendOrDrive: "driving",
-            locations: [{lat:44.228273,lng:	-76.496552 },{lat:43.660234,lng:-79.381492 }],
-            size: "large",
-            dates:["Feb 17, 2019"]
-        }
-        console.log(handleForm(dummyDrive))
-        handleForm(dummyDrive)
         if (this.state.finishedForm){
+            handleForm(this.state.finishedForm)
             return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name}coordinates={this.state.finishedForm.locations}/> : <DriverSuccess/>
         }
         return <UserFlow onFinished={this.changeFlow.bind(this)}/>
