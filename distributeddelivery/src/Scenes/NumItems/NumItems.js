@@ -14,19 +14,19 @@ export default class Map extends React.Component {
             <ParallaxLayer
                 offset={2}
                 speed={-0}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 >
-                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexDirection: 'row' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap' }}>
                     <p className="infoTitle">
-                        I {this.props.sender ? "need" : "have"} a
+                        I {this.props.sender ? "need" : "have"} a</p>
                     <Input
                             id={1}
                             label="small, medium, large"
                             locked={false}
                             active={false}
                             onSubmit={this.setSpace}
-                        />
-                        amount of space</p>
+                        />                    
+                        <p className="infoTitle">amount of space</p>
                 </div>
 
             </ParallaxLayer>
