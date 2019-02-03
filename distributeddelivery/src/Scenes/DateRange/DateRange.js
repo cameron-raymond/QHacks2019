@@ -1,6 +1,5 @@
 import React from 'react'
 import { ParallaxLayer } from 'react-spring/addons'
-import Input from '../../Components/TextInput/Input'
 import DayPicker from 'react-day-picker/DayPickerInput'
 import DayPickerRange from '../../Components/DayPickerRange/DayPickerRange'
 import 'react-day-picker/lib/style.css';
@@ -13,15 +12,14 @@ export default class Map extends React.Component {
         }
     };
     setSpace = (val) => {
-        // this.props.onClick()
         this.props.updateState(val)
     }
     returnDateRange = () => {
         if (this.props.sender) {
             return (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
-                        <p className="infoTitle">Let's send between</p>
-                        <DayPickerRange returnDate={this.setSpace}/>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
+                    <p className="infoTitle">Let's send between</p>
+                    <DayPickerRange returnDate={this.setSpace} />
                 </div>
             )
         }
@@ -41,7 +39,7 @@ export default class Map extends React.Component {
                 offset={3}
                 speed={-0}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
-                
+
                 {this.returnDateRange()}
 
             </ParallaxLayer>

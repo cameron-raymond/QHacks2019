@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import UserFlow from './Userflow'
+import {handleForm} from './Logic/app'
 import * as serviceWorker from './serviceWorker';
 import DriverSuccess from './Scenes/DriverSuccess/DriverSuccess';
 
@@ -14,7 +15,16 @@ class App extends React.Component{
         }
     };
     changeFlow = (val) => {
+        console.log(val)
         val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: true}) : this.setState({sendOrDrive: false,finishedForm: true})
+    }
+
+    addSender = () => {
+        if (this.state.finishedForm){
+            var info = handleForm(this.state.finishedForm);
+        }
+
+
     }
 
     render(){

@@ -32,7 +32,6 @@ export default class Map extends React.Component {
       <ParallaxLayer
         offset={1}
         speed={0.1}
-        // onClick={() => this.props.onClick()}
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
           <p className="infoTitle">I'm coming from</p>
