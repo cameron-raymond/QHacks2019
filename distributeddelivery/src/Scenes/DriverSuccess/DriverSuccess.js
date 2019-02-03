@@ -13,6 +13,7 @@ export default class DriverSuccess extends React.Component {
                 width: '100vw',
                 height: '100vh',
                 display: 'flex',
+                flex: 1,
                 alignItems: 'center',
                 flexDirection: 'column',
                 justifyContent: 'center',

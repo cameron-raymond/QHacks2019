@@ -22,7 +22,6 @@ export default class Map extends React.Component {
                     <Input
                             id={1}
                             label="small, medium, large"
-                            predicted="small"
                             locked={false}
                             active={false}
                             onSubmit={this.setSpace}

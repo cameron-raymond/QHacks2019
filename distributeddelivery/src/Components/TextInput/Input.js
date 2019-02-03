@@ -19,10 +19,8 @@ export default class Input extends React.Component {
 
   handleKeyPress(event) {
     if (event.key === 'Enter') {
+      this.setState({value: ""})
       this.onSubmit()
-    }
-    if (event.which === 13) {
-      this.setState({ value: this.props.predicted });
     }
   }
   onSubmit(){
