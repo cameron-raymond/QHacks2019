@@ -41,6 +41,11 @@ export default class UserFlow extends React.Component {
     returnEverything = () =>{
         if(this.state.sendOrDrive && this.state.space && this.state.timeFrame && this.state.locations){
             this.props.onFinished(this.state)
+            this.setState({name: null,
+                sendOrDrive: null,
+                locations: null,
+                space: null,
+                timeFrame: null})
         }
     }
 
