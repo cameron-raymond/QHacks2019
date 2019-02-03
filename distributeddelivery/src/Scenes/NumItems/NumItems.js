@@ -5,7 +5,7 @@ import Input from '../../Components/TextInput/Input'
 export default class Map extends React.Component {
     setSpace = (val) => {
         this.props.onClick()
-        this.props.updateState(val)
+        this.props.updateState(val.toLowerCase())
     }
     
     render() {
@@ -15,7 +15,7 @@ export default class Map extends React.Component {
                 offset={2}
                 speed={-0}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-                >
+                
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap' }}>
                     <p className="infoTitle">
                         I {this.props.sender ? "need" : "have"} a</p>

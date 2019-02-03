@@ -21,7 +21,7 @@ export default class DriverSuccess extends React.Component {
                 backgroundImage: url('stars', true),
                 backgroundSize: 'cover'
             }} >
-                <p className="driverTitle">Sorry!<br/> There are no drivers currently available</p>
+                <p className="driverTitle">Success!<br/> We'll notify you if there's a match.</p>
                 <Animation/>
             </div>
 

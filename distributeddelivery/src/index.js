@@ -18,14 +18,14 @@ class App extends React.Component{
         }
     };
     changeFlow = (val) => {
-        val.sendOrDrive === 'sending' ? handleForm(val).then(res => this.setState({sendOrDrive: true,finishedForm: val, drivers: res})) : this.setState({sendOrDrive: false,finishedForm: val})
+        val.sendOrDrive === 'sending' ? handleForm(val).then(res => this.setState({finishedForm: val,sendOrDrive: true, drivers: res})) : this.setState({sendOrDrive: false,finishedForm: val})
     }
     render(){
         if (this.state.drivers){
             if (this.state.drivers[0] == 0){
                 return <NoDrivers/>
             }
-            return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name} coordinates={this.state.finishedForm.locations} driverInfo={this.state.drivers}/> : <DriverSuccess/>
+            return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name} coordinates={this.state.finishedForm.locations} price={'$ '+this.state.drivers[2]} driverInfo={this.state.drivers} /> : <DriverSuccess/>
         }
         return <UserFlow onFinished={this.changeFlow.bind(this)}/>
     }

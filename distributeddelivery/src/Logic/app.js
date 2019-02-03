@@ -1,4 +1,5 @@
-import { DirectionsRenderer } from 'react-google-maps';
+const price_per_km = 0.05;
+//import { DirectionsRenderer } from 'react-google-maps';
 
 //const driverList = document.querySelector('#driver-list')
 //const form = document.querySelector('#add-driver-form')
@@ -26,14 +27,20 @@ db.settings({ timestampsInSnapshots: true });
  *      time: [begin date, end date] or date
  * }
  */
+
 export async function handleForm(aJson) {
     var sizeNum = convertSize(aJson.size);
     if (aJson.sendOrDrive === "sending") {
         var driverData = [];
         driverData = await getDriver(aJson.locations, sizeNum, aJson.timeFrame);
         console.log("HANDLE FROM")
-        console.log(driverData)
         //get amount
+        var demand = demand_identifier(driverData[0]);
+        var distance = distance_estimator(aJson.locations[0].lat, aJson.locations[0].lng, aJson.locations[1].lat, aJson.locations[1].lng);
+        var cost = calculator(demand, distance, sizeNum);
+        cost = Number((cost).toFixed(2));
+        driverData.push(cost);
+        console.log(driverData)
         return driverData;
     }
 
@@ -58,7 +65,6 @@ function convertSize(size) {
     if (size === 'large')
         return 3;
 }
-
 
 async function getDriver(locations, size, timePeriod) {
     //db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
@@ -164,166 +170,44 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
 }
 
+export function calculator(demand, distance, size)
+{
+    if (size === 1){
+        size = 0.55;
+    } else if (size === 2){
+        size = .8;
+    } else {
+        size = 1.25;
+    }
+    return distance*price_per_km*demand*size;
+}
 
-// // function getDrivers(Sender){
-// //     senderStart = new date(sender.data().StartTime);
-// //     senderEnd = new date(sender.data().EndTime);
-// //     var goodDrivers;
-// //     var drivers = db.collection('drivers');
-// //     drivers.get().then(function(querySnapShot){
-// //         querySnapShot.forEach((doc)=> {
-// //          driverdate = new Date(doc.data().travelDate);
-// //             if (driverdate <= senderEnd && driverdate >= senderStart)
-// //                 goodDrivers.push(doc.data)
-// //         })
-// //         return goodDrivers
-// //     })
+export function demand_identifier(num_shippers)
+{
+    var price_multiplier = 0;
+    if (num_shippers >= 5) {
+        price_multiplier = .8;
+    } else if (num_shippers >= 10) {
+        price_multiplier = .7;
+    } else {
+        price_multiplier = 1;
+    }
+    return price_multiplier;
+}
 
-// // }
+export function distance_estimator(lat1, lon1, lat2, lon2){
+    var radlat1 = Math.PI * lat1 / 180;
+    var radlat2 = Math.PI * lat2 / 180;
+    var theta = lon1 - lon2;
+    var radtheta = Math.PI * theta / 180;
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    if (dist > 1) {
+        dist = 1;
+    }
+    dist = Math.acos(dist);
+    dist = dist * 180 / Math.PI;
+    dist = dist * 60 * 1.1515;
+    dist = dist * 1.609344
 
-// // //saving shipper data
-// // form.addEventListener('submit', (e) => {
-// //     e.preventDefault();
-// //     db.collection('drivers').add({
-// //         firstName: form.firstName.value,
-// //         lastName: form.lastName.value,
-// //         travelLocation: new firebase.firestore.GeoPoint(parseFloat(form.Slatitude.value), parseFloat(form.Slongitude.value)),
-// //         EndLocation: new firebase.firestore.GeoPoint(parseFloat(form.Elatitude.value), parseFloat(form.Elongitude.value)),
-// //         size: parseInt(form.size.value),
-// //         travelDate: form.travelDate.value
-
-// //     }).then(function (docRef) {
-// //         console.log("Document written with ID: ", docRef.id);;
-// //         form.firstName.value = "";
-// //         form.lastName.value = "";
-// //     });
-// // })
-
-// function getDriver(locations, size, timePeriod) {
-
-//     //db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
-//     // console.log(doc.data());
-//     var driverInfo = []
-//     var senderStart = new Date(timePeriod[0])
-//     var senderEnd = new Date(timePeriod[1])
-//     var senderSize = size
-//     var senderStartLoc = locations[0]
-//     var senderEndLoc = locations[1]
-//     var filteredData = [];
-//     var goodDrivers = db.collection('drivers').where('travelDate', '<=', senderEnd).where('travelDate', '>=', senderStart);
-//     goodDrivers.get().then(function (querySnapShot) {
-//         //var filteredData = []
-//         querySnapShot.forEach((doc) => {
-//             console.log(doc.data().travelLocation)
-//             console.log(doc.data().firstName)
-//             console.log(doc.data().size)
-//             console.log(senderSize)
-//             if (doc.data().size >= senderSize && distance(doc.data().travelLocation._lat, doc.data().travelLocation._long, senderStartLoc._lat, senderStartLoc._long, 'K') && distance(doc.data().EndLocation._lat, doc.data().EndLocation._long, senderEndLoc._lat, senderEndLoc._long, 'K')) {
-//                 //console.log('works')
-//                 filteredData.push(doc.data())
-//             }
-//         })
-//     })
-
-//     driverInfo.push(filteredData.length)
-//     var newest = 0;
-//     var driverName = null;
-//     filteredData.forEach(function (element) {
-//         if (newest == 0) {
-//             newest = element.data().travelDate;
-//             driverName = element.data().name;
-//         }
-//         else if (element.data().travelDate < newest) {
-//             newest = element.data().travelDate;
-//             driverName = element.data().name;
-//         }
-//     })
-//     driverInfo.push(driverName)
-//     return driverInfo
-// }
-
-
-
-// function distance(lat1, lon1, lat2, lon2, unit) {
-//     if ((lat1 == lat2) && (lon1 == lon2)) {
-//         return 1;
-//     }
-//     else {
-//         var radlat1 = Math.PI * lat1 / 180;
-//         var radlat2 = Math.PI * lat2 / 180;
-//         var theta = lon1 - lon2;
-//         var radtheta = Math.PI * theta / 180;
-//         var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-//         if (dist > 1) {
-//             dist = 1;
-//         }
-//         dist = Math.acos(dist);
-//         dist = dist * 180 / Math.PI;
-//         dist = dist * 60 * 1.1515;
-//         if (unit == "K") { dist = dist * 1.609344 }
-//         if (unit == "N") { dist = dist * 0.8684 }
-//         console.log(dist)
-//         if (dist < 10)
-//             return 1;
-//         else
-//             return 0;
-//     }
-
-// }
-
-
-// // // function getDrivers(Sender){
-// // //     senderStart = new date(sender.data().StartTime);
-// // //     senderEnd = new date(sender.data().EndTime);
-// // //     var goodDrivers;
-// // //     var drivers = db.collection('drivers');
-// // //     drivers.get().then(function(querySnapShot){
-// // //         querySnapShot.forEach((doc)=> {
-// // //          driverdate = new Date(doc.data().travelDate);
-// // //             if (driverdate <= senderEnd && driverdate >= senderStart)
-// // //                 goodDrivers.push(doc.data)
-// // //         })
-// // //         return goodDrivers
-// // //     })
-// // // // }
-// // // function getWithinDistance(sender, drivers) {
-
-// // // }
-
-
-// // // function checkDate(sender, drivers) {
-// // //     drivers = db.collection('drivers').get();
-// // //     senderStartTime = sender.data.startTime;
-
-// // // }
-// // // // sender.get().then(function(querySel){
-// // // //     querySel.c
-// // // // }
-// // // // sender.get().then(function(send){
-// // // //         send.forEach((docref)=> {
-// // // //         console.log(docref.data())
-// // // //     })
-// // // // })
-
-// // // /*
-// // // //saving shipper data
-// // // form.addEventListener('submit',(e)=>{
-// // //     e.preventDefault();
-// // //     db.collection('shipers').add({
-// // //         firstName: form.firstName.value,
-// // //         lastName: form.lastName.value,
-// // //         Slongitude: form.Slongitude.value,
-// // //         Slatitude: form.Slatitude.value,
-// // //         Elongitude: form.Dlongitude.value,
-// // //         Elatitude: form.Dlatitude.value,
-// // //         size: form.size.value
-
-// // //     });
-// // //     form.firstName.value ="";
-// // //     form.lastName.value = "";
-// // //     form.Slongitude.value ='';
-// // //     form.Slatitude.value = '';
-// // //     form.Elatitude.value = '';
-// // //     form.Elongitude.value = '';
-
-// // // }) */
+    return dist
+}
