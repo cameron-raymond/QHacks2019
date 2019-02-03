@@ -1,15 +1,15 @@
 {
-  "main.css": "/QHacks2019/static/css/main.5fbc6034.chunk.css",
-  "main.js": "/QHacks2019/static/js/main.fccaad0b.chunk.js",
-  "main.js.map": "/QHacks2019/static/js/main.fccaad0b.chunk.js.map",
-  "static/css/1.2dec0417.chunk.css": "/QHacks2019/static/css/1.2dec0417.chunk.css",
-  "static/js/1.56c09026.chunk.js": "/QHacks2019/static/js/1.56c09026.chunk.js",
-  "static/js/1.56c09026.chunk.js.map": "/QHacks2019/static/js/1.56c09026.chunk.js.map",
-  "runtime~main.js": "/QHacks2019/static/js/runtime~main.d78740cb.js",
-  "runtime~main.js.map": "/QHacks2019/static/js/runtime~main.d78740cb.js.map",
-  "static/css/1.2dec0417.chunk.css.map": "/QHacks2019/static/css/1.2dec0417.chunk.css.map",
-  "static/css/main.5fbc6034.chunk.css.map": "/QHacks2019/static/css/main.5fbc6034.chunk.css.map",
-  "index.html": "/QHacks2019/index.html",
-  "precache-manifest.af54585c75f463829cf9f66fb71e9466.js": "/QHacks2019/precache-manifest.af54585c75f463829cf9f66fb71e9466.js",
-  "service-worker.js": "/QHacks2019/service-worker.js"
+  "main.css": "/static/css/main.5fbc6034.chunk.css",
+  "main.js": "/static/js/main.1195e169.chunk.js",
+  "main.js.map": "/static/js/main.1195e169.chunk.js.map",
+  "static/css/1.2dec0417.chunk.css": "/static/css/1.2dec0417.chunk.css",
+  "static/js/1.56c09026.chunk.js": "/static/js/1.56c09026.chunk.js",
+  "static/js/1.56c09026.chunk.js.map": "/static/js/1.56c09026.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
+  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
+  "static/css/1.2dec0417.chunk.css.map": "/static/css/1.2dec0417.chunk.css.map",
+  "static/css/main.5fbc6034.chunk.css.map": "/static/css/main.5fbc6034.chunk.css.map",
+  "index.html": "/index.html",
+  "precache-manifest.86c6c262fc9036dad6d94b19fbdd8875.js": "/precache-manifest.86c6c262fc9036dad6d94b19fbdd8875.js",
+  "service-worker.js": "/service-worker.js"
 }
