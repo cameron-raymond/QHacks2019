@@ -29,21 +29,27 @@ export default class Map extends React.Component {
                 <div style={{
                     display: 'flex',
                     flex: 1,
+                    paddingTop: 10,
+                    paddingBottom: 10,
                     paddingLeft: 40,
                     paddingRight: 40,
-
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     height: '40vh'
                 }}>
+                 <p className="confTitle">
+                            Thank you {this.props.name}!
+                        </p>
                     <div style={{
                         display: 'flex',
                         flex: 1,
                         flexDirection: 'column',
-                        justifyContent: 'flex-start',
+                        justifyContent: 'space-around',
                         alignItems: 'flex-start',
+                        marginLeft: 20
                     }}>
+                   
                         <p className="confTitle">
                             Your Driver: {this.props.driver}
                         </p>

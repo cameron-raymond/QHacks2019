@@ -16,7 +16,6 @@ class App extends React.Component{
         }
     };
     changeFlow = (val) => {
-        console.log(val)
         val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: val}) : this.setState({sendOrDrive: false,finishedForm: true})
     }
 
@@ -27,9 +26,8 @@ class App extends React.Component{
     }
 
     render(){
-        return <SenderConfirmation coordinates={[{lat: 43.64693750000001, lng: -79.47336359999997},{lat: 44.2301391,lng: -76.49719900000002}]}/>
         if (this.state.finishedForm){
-            return this.state.sendOrDrive ? <SenderConfirmation coordinates={this.state.finishedForm.locations}/> : <DriverSuccess/>
+            return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name}coordinates={this.state.finishedForm.locations}/> : <DriverSuccess/>
         }
         return <UserFlow onFinished={this.changeFlow.bind(this)}/>
     }
