@@ -1,16 +1,37 @@
 import React from 'react'
+import Button from './Button'
+import './intro.css'
+import {Spring} from 'react-spring'
+import { ParallaxLayer } from 'react-spring/addons'
 
 export default class Map extends React.Component {
-  constructor(props) {
-    super(props);
-   
-  };
+
+  handleClick(val) {
+    this.props.onClick()
+    this.props.updateState(val)
+  }
 
   render() {
     return (
-      <div style={{height: '100vh', width: '100vw', backgroundColor:'#F8F8F8'}}>
-        <h1>Test</h1>
-      </div>
+      <ParallaxLayer
+        offset={0}
+        speed={0.1}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+       
+       
+        <br />
+        <p className="title">I am...</p>
+        <div className="options">
+          <Button onClick={() => this.handleClick("sending")}>
+            sending
+          </Button>
+
+          <Button onClick={() => this.handleClick("driving")}>
+            driving
+          </Button>
+        </div>
+
+      </ParallaxLayer>
     );
   }
 }
