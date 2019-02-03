@@ -1,3 +1,8 @@
+import { demand_identifier, calculator } from "./cost_estimater";
+import {distance_estimator} from "./cost_estimater";
+var firebase = require('firebase');
+const puppeteer = require('puppeteer');
+
 //const driverList = document.querySelector('#driver-list')
 //const form = document.querySelector('#add-driver-form')
 
@@ -9,6 +14,7 @@ var config = {
     storageBucket: "distributeddelivery.appspot.com",
     messagingSenderId: "463943185639"
 };
+
 firebase.initializeApp(config);
 const db = firebase.firestore();
 db.settings({ timestampsInSnapshots: true });
@@ -25,12 +31,16 @@ db.settings({ timestampsInSnapshots: true });
  * }
  */
 export function handleForm(aJson) {
-    sizeNum = convertSize(aJson.space);
+    var sizeNum = convertSize(aJson.space);
     if (aJson.sendOrDriving === "sending") {
-        driverData = [];
+        var driverData = [];
         driverData = getDriver(aJson.locations, sizeNum, aJson.time);
         //get amount
-        return driverData;
+        var distance = distance_estimator(aJson.locations[0].lat, aJson.locations[0].lng, aJson.locations[1].lat, aJson.locations[1].lng);
+        var demand = demand_identifier(driverData[0]);
+        var estimate = calculator(demand, distance, sizeNum);
+        var output = [estimate, driverData];
+        return output;
     }
 
     if (aJson.sendOrDriving === "driving") {
@@ -38,8 +48,8 @@ export function handleForm(aJson) {
         db.collection('drivers').add({
             firstName: aJson.firstName,
             lastName: aJson.lastName,
-            travelLocation: new firebase.firestore.GeoPoint(parseFloat(locations[0].lat), parseFloat(locations[0].long)),
-            EndLocation: new firebase.firestore.GeoPoint(parseFloat(locations[1].lat), parseFloat(locations[1].long)),
+            travelLocation: new firebase.firestore.GeoPoint(parseFloat(aJson.locations[0].lat), parseFloat(aJson.locations[0].long)),
+            EndLocation: new firebase.firestore.GeoPoint(parseFloat(aJson.locations[1].lat), parseFloat(aJson.locations[1].long)),
             size: parseInt(sizeNum),
             travelDate: aJson.time
         })
@@ -145,16 +155,16 @@ function getDriver(locations, size, timePeriod) {
 
     //db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
     // console.log(doc.data());
-    driverInfo = []
-    senderStart = new Date(timePeriod[0])
-    senderEnd = new Date(timePeriods[1])
-    senderSize = size
-    senderStartLoc = locations[0]
-    senderEndLoc = location[1]
-
+    var driverInfo = []
+    var senderStart = new Date(timePeriod[0])
+    var senderEnd = new Date(timePeriod[1])
+    var senderSize = size
+    var senderStartLoc = locations[0]
+    var senderEndLoc = locations[1]
+    var filteredData = [];
     var goodDrivers = db.collection('drivers').where('travelDate', '<=', senderEnd).where('travelDate', '>=', senderStart);
     goodDrivers.get().then(function (querySnapShot) {
-        var filteredData = []
+        //var filteredData = []
         querySnapShot.forEach((doc) => {
             console.log(doc.data().travelLocation)
             console.log(doc.data().firstName)
@@ -165,26 +175,22 @@ function getDriver(locations, size, timePeriod) {
                 filteredData.push(doc.data())
             }
         })
-        console.log(filteredData)
     })
 
     driverInfo.push(filteredData.length)
     var newest = 0;
-    var driverName = []
+    var driverName = null;
     filteredData.forEach(function (element) {
         if (newest == 0) {
             newest = element.data().travelDate;
-            driverName.push(element.data().name[0]);
-            driverName.push(element.data().name[1]);
+            driverName = element.data().name;
         }
         else if (element.data().travelDate < newest) {
             newest = element.data().travelDate;
-            driverName.push(element.data().name[0]);
-            driverName.push(element.data().name[1]);
+            driverName = element.data().name;
         }
     })
-    driverInfo.push(driverName[0])
-    driverInfo.push(driverName[1])
+    driverInfo.push(driverName)
     return driverInfo
 }
 

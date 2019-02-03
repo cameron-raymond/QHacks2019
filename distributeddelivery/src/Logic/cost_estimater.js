@@ -3,26 +3,25 @@ const puppeteer = require('puppeteer');
 var request = new XMLHttpRequest();
 
 //Access trip information from firebase and determine frequency/availability of trips
-export function demand_identifier(drivers_list)
+export function demand_identifier(num_shippers)
 {
-    var price_multpilier = 0;
-    var num_shippers = drivers_list.length;
+    var price_multiplier = 0;
     if (num_shippers >= 5) {
-        price_multpilier = .8;
+        price_multiplier = .8;
     } else if (num_shippers >= 10) {
-        price_multpilier = .7;
+        price_multiplier = .7;
     } else {
-        price_multpilier = 1;
+        price_multiplier = 1;
     }
-    return price_multpilier;
+    return price_multiplier;
 }
 
-export async function distance_estimator(long_A=40.6655101, lat_A=-73.89188969999998, long_B=41.6905615, lat_B=-73.9976592)
+export async function distance_estimator(lat_A, long_A, lat_B, long_B)
 {
     let scrape = async () => {
         const browser = await puppeteer.launch();  
         const page = await browser.newPage();
-        await page.goto('https://www.google.com/maps/dir/'+ 40.930385 + ',+-' + 120.118425 + '/' + 41.087692 + ',+-' + 121.421150);
+        await page.goto('https://www.google.com/maps/dir/'+ lat_A + ',+-' + long_A + '/' + lat_B + ',+-' + long_B);
         await page.waitFor(1000);
     
         const distance_finder = await page.evaluate(() => {
@@ -38,10 +37,18 @@ export async function distance_estimator(long_A=40.6655101, lat_A=-73.8918896999
     var distance = scrape().then((value) => {
         return value.replace(' km', '');
     });
-return distance;
+return parseInt(distance);
 }
 
-export function calculator(drivers_list, long, lat)
+export function calculator(demand, distance, size)
 {
-    return distance_estimator(long, lat)*price_per_km*demand_identifier(drivers_list.length);
+    if (size == 1){
+        size = 0.75;
+    } else if (size == 2){
+        size = 1;
+    } else {
+        size = 1.25;
+    }
+    
+    return distance*price_per_km*demand*size;
 }
