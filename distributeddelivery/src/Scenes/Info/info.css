@@ -1,23 +1,15 @@
-.container {
-    display: flex;
-    flex: 1;
-    min-height: 100vh;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: calc(10px + 2vmin);
-  }
-
 .infoTitle{
     font-size: 70px;
     color: #e0e0e0;
     text-align: center
 }
+@media screen and (max-width: 769px) {
+  .infoTitle{
+    font-size: 40px;
+    color: #e0e0e0;
 
-.subtitle{
-  font-style: italic
+    text-align: center;
+  }
 }
 
 .options{
