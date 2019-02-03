@@ -5,6 +5,7 @@ import UserFlow from './Userflow'
 import {handleForm} from './Logic/app'
 import * as serviceWorker from './serviceWorker';
 import DriverSuccess from './Scenes/DriverSuccess/DriverSuccess';
+import SenderConfirmation from './Scenes/SenderConfirmation/SenderConfirmation'
 
 class App extends React.Component{
     constructor(props) {
@@ -15,21 +16,18 @@ class App extends React.Component{
         }
     };
     changeFlow = (val) => {
-        console.log(val)
-        val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: true}) : this.setState({sendOrDrive: false,finishedForm: true})
+        val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: val}) : this.setState({sendOrDrive: false,finishedForm: true})
     }
 
     addSender = () => {
         if (this.state.finishedForm){
             var info = handleForm(this.state.finishedForm);
         }
-
-
     }
 
     render(){
         if (this.state.finishedForm){
-            return this.state.sendOrDrive ? <div><p>sending</p></div> : <DriverSuccess/>
+            return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name}coordinates={this.state.finishedForm.locations}/> : <DriverSuccess/>
         }
         return <UserFlow onFinished={this.changeFlow.bind(this)}/>
     }

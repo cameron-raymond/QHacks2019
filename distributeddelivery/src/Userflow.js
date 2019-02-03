@@ -13,6 +13,7 @@ export default class UserFlow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: null,
             sendOrDrive: null,
             locations: null,
             space: null,
@@ -21,7 +22,10 @@ export default class UserFlow extends React.Component {
     };
 
     updateUser = (val) => {
-        this.setState({sendOrDrive: val})
+        this.setState({
+            name: val[0],
+            sendOrDrive: val[1],
+        })
     }
     updateLocations = (val) => {
         this.setState({ locations: val })
