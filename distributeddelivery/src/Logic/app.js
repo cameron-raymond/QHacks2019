@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { demand_identifier, calculator } from "./cost_estimater";
 import {distance_estimator} from "./cost_estimater";
 var firebase = require('firebase');
@@ -75,7 +74,6 @@ function convertSize(size) {
 // //         console.log(doc.data())
 // //     });
 // // })
-=======
 // //const driverList = document.querySelector('#driver-list')
 // //const form = document.querySelector('#add-driver-form')
 
@@ -124,8 +122,6 @@ function convertSize(size) {
 //     }
 //     // console.log(aJson)
 // }
->>>>>>> a902ccf4aec4fee544434aee3e3cd7cdc37a7532
-
 
 // function convertSize(size) {
 //     if (size === 'small')
@@ -312,7 +308,6 @@ function convertSize(size) {
 // // //     })
 
 
-<<<<<<< HEAD
 // // function checkDate(sender,drivers){
 // //     drivers = db.collection('drivers').get();
 // //     senderStartTime = sender.data.startTime;
@@ -427,10 +422,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 // //         })
 // //         return goodDrivers
 // //     })
-=======
 // // // }
->>>>>>> a902ccf4aec4fee544434aee3e3cd7cdc37a7532
-
 // // function getWithinDistance(sender, drivers) {
 
 // // }
