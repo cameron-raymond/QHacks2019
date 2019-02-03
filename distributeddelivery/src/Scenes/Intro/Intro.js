@@ -20,6 +20,7 @@ export default class Map extends React.Component {
        
        
         <br />
+        
         <p className="title">I am...</p>
         <div className="options">
           <Button onClick={() => this.handleClick("sending")}>

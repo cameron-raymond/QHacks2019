@@ -5,6 +5,7 @@ import UserFlow from './Userflow'
 import {findDriver} from './Logic/app'
 import * as serviceWorker from './serviceWorker';
 import DriverSuccess from './Scenes/DriverSuccess/DriverSuccess';
+import SenderConfirmation from './Scenes/SenderConfirmation/SenderConfirmation'
 
 class App extends React.Component{
     constructor(props) {
@@ -16,20 +17,19 @@ class App extends React.Component{
     };
     changeFlow = (val) => {
         console.log(val)
-        val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: true}) : this.setState({sendOrDrive: false,finishedForm: true})
+        val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: val}) : this.setState({sendOrDrive: false,finishedForm: true})
     }
 
     addSender = () => {
         if (this.state.finishedForm){
             var info = findDriver(this.state.finishedForm);
         }
-
-
     }
 
     render(){
+        return <SenderConfirmation coordinates={[{lat: 43.64693750000001, lng: -79.47336359999997},{lat: 44.2301391,lng: -76.49719900000002}]}/>
         if (this.state.finishedForm){
-            return this.state.sendOrDrive ? <div><p>sending</p></div> : <DriverSuccess/>
+            return this.state.sendOrDrive ? <SenderConfirmation coordinates={this.state.finishedForm.locations}/> : <DriverSuccess/>
         }
         return <UserFlow onFinished={this.changeFlow.bind(this)}/>
     }
