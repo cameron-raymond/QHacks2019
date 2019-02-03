@@ -15,7 +15,7 @@ export function get_coords(point_A, point_B)
 }
 
 //Access trip information from firebase and determine frequency/availability of trips
-export function demand_identifier(shippers)
+export function demand_identifier(drivers_list)
 {
     var num_shippers = shippers.length;
     if (num_shippers >= 5) {
@@ -46,11 +46,11 @@ export function distance_estimator(long_A=44.234183, lat_A=-76.497128, long_B=45
     var myRegexp = /(\d+)\ km/;
     var match = myRegexp.exec(data);
     distance = match[0];
-    console.log(distance);
 
+    return distance;
 }
 
-export function calculator()
+export function calculator(drivers_list)
 {
-    
+    cost = distance_estimator()*price_per_km*demand_identifier(drivers_list.length)
 }
