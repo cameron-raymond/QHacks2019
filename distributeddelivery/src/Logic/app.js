@@ -1,3 +1,21 @@
+import {demand_identifier} from './cost_estimater.js'
+import {disatnce_estimater} from './cost_estimater.js'
+import {calculator} from './cost_estimater.js'
+
+// const driverList = document.querySelector('#driver-list')
+// const form = document.querySelector('#add-driver-form')
+
+// var config = {
+//     apiKey: "AIzaSyDHaDZN8cLM49JxSAc0mg0kMrHrddMlbJQ",
+//     authDomain: "distributeddelivery.firebaseapp.com",
+//     databaseURL: "https://distributeddelivery.firebaseio.com",
+//     projectId: "distributeddelivery",
+//     storageBucket: "distributeddelivery.appspot.com",
+//     messagingSenderId: "463943185639"
+// };
+// firebase.initializeApp(config);
+// const db = firåebase.firestore();
+// db.settings({ timestampsInSnapshots: true });
 //const driverList = document.querySelector('#driver-list')
 //const form = document.querySelector('#add-driver-form')
 
@@ -24,6 +42,7 @@ db.settings({ timestampsInSnapshots: true });
  *      time: [begin date, end date] or date
  * }
  */
+
 export function handleForm(aJson) {
     if (aJson.sendOrDriving === "sending") {
             //Get driver 
