@@ -11,7 +11,7 @@ export default class Map extends React.Component {
     };
 
     render() {
-        console.log(this.props.coordinates)
+        console.log(this.props.driverInfo)
         return (
             <div style={{
                 width: '100vw',
@@ -51,7 +51,7 @@ export default class Map extends React.Component {
                     }}>
                    
                         <p className="confTitle">
-                            Your Driver: {this.props.driver}
+                            Your Driver: {this.props.driverInfo[1]}
                         </p>
                         <p className="confTitle">
                             Price: {this.props.price}
