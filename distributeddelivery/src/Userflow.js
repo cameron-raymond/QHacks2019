@@ -4,8 +4,7 @@ import Intro from './Scenes/Intro/Intro'
 import NumItems from './Scenes/NumItems/NumItems'
 import UserInfoDriver from './Scenes/Info/UserInfoDriver'
 import UserInfoSender from './Scenes/Info/UserInfoSender'
-import DateRangeDriver from './Scenes/DateRange/DateRangeDriver'
-import DatRangeSender from './Scenes/DateRange/DateRangeSender'
+import DateRange from './Scenes/DateRange/DateRange'
 import { Parallax, ParallaxLayer } from 'react-spring/addons'
 
 // Little helpers ...
@@ -17,13 +16,14 @@ const url = (name, wrap = false) => `${wrap ? 'url(' : ''}https://awv3node-homep
 // const Blue = ({ children }) => <span style={{ color: '#57C7FF' }}>{children}</span>
 // const Gray = ({ children }) => <span style={{ color: '#909090' }}>{children}</span>
 
-export default class App extends React.Component {
+export default class UserFlow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             sendOrDrive: null,
             locations: null,
-            space: null
+            space: null,
+            timeFrame: null
         }
     };
 
@@ -37,20 +37,36 @@ export default class App extends React.Component {
         this.setState({ space: val })
     }
 
-    render() {
-        console.log(this.state.sendOrDrive)
-        return (
+    updateTimeFrame = (val) => {
+        this.setState({ timeFrame: val })
+    }
 
+    returnEverything = () =>{
+        if(this.state.sendOrDrive && this.state.space && this.state.timeFrame && this.state.locations){
+            return JSON.stringify(this.state)
+        }
+    }
+
+    render() {
+        return (
             <Parallax ref={ref => (this.parallax = ref)} pages={4}>
                 <ParallaxLayer offset={0} speed={0} factor={3} style={{backgroundColor: '#373c4c',backgroundImage: url('stars', true), backgroundSize: 'cover' }} />
                 <ParallaxLayer offset={1} speed={1} style={{ backgroundColor: '#805E73' }} />
                 <ParallaxLayer offset={2} speed={1} style={{ backgroundColor: '#909090' }} />
                 <ParallaxLayer offset={3} speed={1} style={{ backgroundColor: '#87BCDE' }} />
                 <Intro onClick={() => this.parallax.scrollTo(1)} updateState={this.updateUser} />
+                <ParallaxLayer offset={3} speed={1}>
+                {this.returnEverything()}
+                </ParallaxLayer>
                 {this.state.sendOrDrive === 'sending' ? <UserInfoSender onClick={() => this.parallax.scrollTo(2)} updateState={this.updateLocations} /> : <UserInfoDriver onClick={() => this.parallax.scrollTo(2)} updateState={this.updateLocations} />}
                 
                 <NumItems onClick={() => this.parallax.scrollTo(3)} updateState={this.updateSpace} />
-                {this.state.sendOrDrive === 'sending' ? <DatRangeSender/> : <DateRangeDriver/>}
+                {/* Earth needs to be behind everything */}
+                <ParallaxLayer offset={3.8} speed={-0.4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+                    <img alt={""} src={url('earth')} style={{ width: '60%' }} />
+                </ParallaxLayer>
+
+                {this.state.sendOrDrive === 'sending' ? <DateRange sender={true} updateState={this.updateTimeFrame}/> :<DateRange sender={false} updateState={this.updateTimeFrame}/>}
 
                 {/*BACKGROUND IMAGES*/}
                 <ParallaxLayer offset={0.2} speed={-0.3} style={{ pointerEvents: 'none' }}>
@@ -95,10 +111,7 @@ export default class App extends React.Component {
                     <img alt={""} src={url('cloud')} style={{ display: 'block', width: '25%', marginLeft: '30%' }} />
                     <img alt={""} src={url('cloud')} style={{ display: 'block', width: '10%', marginLeft: '80%' }} />
                 </ParallaxLayer>
-                <ParallaxLayer offset={3.8} speed={-0.4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
-                    <img alt={""} src={url('earth')} style={{ width: '60%' }} />
-                </ParallaxLayer>
-
+               
 
 
 
@@ -108,4 +121,3 @@ export default class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
