@@ -36,7 +36,7 @@ class App extends React.Component{
     render(){
             var data = handleForm(this.state.finishedForm)
             if (this.state.drivers){
-            return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name} coordinates={this.state.finishedForm.locations} driverInfo={this.state.drivers} price={'$ '+data[2]}/> : <DriverSuccess/>
+                return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name} coordinates={this.state.finishedForm.locations} price={'$ '+this.state.drivers[2]} driverInfo={this.state.drivers} /> : <DriverSuccess/>
         }
         return <UserFlow onFinished={this.changeFlow.bind(this)}/>
     }
