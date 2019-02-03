@@ -26,6 +26,23 @@ class App extends React.Component{
     }
 
     render(){
+        var dummyData = {
+            name: "cam",
+            sendOrDrive: "sending",
+            locations: [{lat:44.228273,lng:	-76.496552 },{lat:43.660234,lng:-79.381492 }],
+            size: "large",
+            dates:["Feb 17, 2019","Feb 28, 2019"]
+        }
+
+        var dummyDrive = {
+            name: "Wham",
+            sendOrDrive: "driving",
+            locations: [{lat:44.228273,lng:	-76.496552 },{lat:43.660234,lng:-79.381492 }],
+            size: "large",
+            dates:["Feb 17, 2019"]
+        }
+        console.log(handleForm(dummyDrive))
+        handleForm(dummyDrive)
         if (this.state.finishedForm){
             return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name}coordinates={this.state.finishedForm.locations}/> : <DriverSuccess/>
         }
