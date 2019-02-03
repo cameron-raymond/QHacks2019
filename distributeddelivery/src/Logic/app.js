@@ -16,6 +16,20 @@ import {calculator} from './cost_estimater.js'
 // firebase.initializeApp(config);
 // const db = firåebase.firestore();
 // db.settings({ timestampsInSnapshots: true });
+//const driverList = document.querySelector('#driver-list')
+//const form = document.querySelector('#add-driver-form')
+
+var config = {
+    apiKey: "AIzaSyDHaDZN8cLM49JxSAc0mg0kMrHrddMlbJQ",
+    authDomain: "distributeddelivery.firebaseapp.com",
+    databaseURL: "https://distributeddelivery.firebaseio.com",
+    projectId: "distributeddelivery",
+    storageBucket: "distributeddelivery.appspot.com",
+    messagingSenderId: "463943185639"
+};
+firebase.initializeApp(config);
+const db = firebase.firestore();
+db.settings({ timestampsInSnapshots: true });
 
 /**
  * 
@@ -28,11 +42,36 @@ import {calculator} from './cost_estimater.js'
  *      time: [begin date, end date] or date
  * }
  */
-export function findDriver(aJson){
-    
-    console.log(aJson)
+
+export function handleForm(aJson) {
+    if (aJson.sendOrDriving === "sending") {
+            //Get driver 
+            //get amount
+    }
+
+    if (aJson.sendOrDriving === "driving") {
+             sizeNum = convertSize(aJson.space),
+            db.collection('drivers').add({
+                firstName: aJson.firstName,
+                lastName: aJson.lastName,
+                travelLocation: new firebase.firestore.GeoPoint(parseFloat(locations[0].lat), parseFloat(locations[0].long)),
+                EndLocation: new firebase.firestore.GeoPoint(parseFloat(locations[1].lat), parseFloat(locations[1].long)),
+                size: parseInt(sizeNum),
+                travelDate: aJson.time
+            })
+    }
+   // console.log(aJson)
 }
 
+
+function convertSize(size){
+    if(size === 'small')
+        return 1;
+    if(size === 'medium')
+        return 2;
+    if(size === 'large')
+        return 3;
+}
 // // getting data
 
 
@@ -140,36 +179,36 @@ export function findDriver(aJson){
 // //     });
 // // });
 
-// var newSender;
-// db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
-//     // console.log(doc.data());
-//     senderStart = new Date(doc.data().StartTime)
-//     senderEnd = new Date(doc.data().EndTime)
-//     senderSize = doc.data().size
-//     senderStartLoc = doc.data().SendLocation
-//     senderEndLoc = doc.data().EndLocation
-    
-//     var goodDrivers = db.collection('drivers').where('travelDate', '<=', senderEnd).where('travelDate', '>=', senderStart);
-//     goodDrivers.get().then(function (querySnapShot) {
-//         var filteredData = []
-//         querySnapShot.forEach((doc) => {
-//             console.log(doc.data().travelLocation)
-//             console.log(doc.data().firstName)
-//             console.log(doc.data().size)
-//             console.log(senderSize)
-//             if(doc.data().size >= senderSize  && distance(doc.data().travelLocation._lat,doc.data().travelLocation._long,senderStartLoc._lat,senderStartLoc._long,'K') && distance(doc.data().EndLocation._lat,doc.data().EndLocation._long,senderEndLoc._lat,senderEndLoc._long,'K')){
-//                 console.log('works')
-//                 filteredData.push(doc.data())
-//         }
-//         })
-//         console.log(filteredData)
-        
-//     })
+var newSender;
+db.collection("senders").doc('4u0PpiK4LqC6wMxhb1nF').onSnapshot(doc => {
+    // console.log(doc.data());
+    senderStart = new Date(doc.data().StartTime)
+    senderEnd = new Date(doc.data().EndTime)
+    senderSize = doc.data().size
+    senderStartLoc = doc.data().SendLocation
+    senderEndLoc = doc.data().EndLocation
+
+    var goodDrivers = db.collection('drivers').where('travelDate', '<=', senderEnd).where('travelDate', '>=', senderStart);
+    goodDrivers.get().then(function (querySnapShot) {
+        var filteredData = []
+        querySnapShot.forEach((doc) => {
+            console.log(doc.data().travelLocation)
+            console.log(doc.data().firstName)
+            console.log(doc.data().size)
+            console.log(senderSize)
+            if(doc.data().size >= senderSize  && distance(doc.data().travelLocation._lat,doc.data().travelLocation._long,senderStartLoc._lat,senderStartLoc._long,'K') && distance(doc.data().EndLocation._lat,doc.data().EndLocation._long,senderEndLoc._lat,senderEndLoc._long,'K')){
+                console.log('works')
+                filteredData.push(doc.data())
+        }
+        })
+        console.log(filteredData)
+
+    })
 
 
-//     //drivers = getDrivers(newSender);
-//     //console.log(senderStart)
-// })
+    //drivers = getDrivers(newSender);
+    //console.log(senderStart)
+})
 
 
 //     function distance(lat1, lon1, lat2, lon2, unit) {
@@ -198,7 +237,7 @@ export function findDriver(aJson){
 //         }
 
 //     }
-  
+
 
 // // function getDrivers(Sender){
 // //     senderStart = new date(sender.data().StartTime);
