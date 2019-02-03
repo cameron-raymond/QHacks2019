@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/QHacks2019/precache-manifest.2efabdbf9d4bb0b42a2e53ec57c69093.js"
+  "/QHacks2019/precache-manifest.162424509110711cd08c7ee38155b796.js"
 );
 
 workbox.clientsClaim();
