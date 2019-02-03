@@ -34,8 +34,8 @@ export function handleForm(aJson) {
         var demand = demand_identifier(driverData[0]);
         var distance = distance_estimator(aJson.locations[0].lat, aJson.locations[0].lng, aJson.locations[1].lat, aJson.locations[1].lng);
         var cost = calculator(demand, distance, sizeNum);
+        cost = Number((cost).toFixed(2));
         driverData.push(cost);
-        console.log(driverData);
         return driverData;
     }
 
