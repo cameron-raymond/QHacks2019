@@ -49,8 +49,7 @@
     padding: 0px 16px;
     border: none;
     border-radius: 4px;
-    font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     line-height: normal;
     background-color: transparent;
@@ -80,7 +79,7 @@
     top: 24px;
     left: 16px;
     font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 24px;
     color: #ffffff;
@@ -98,7 +97,7 @@
     top: 8px;
     left: 16px;
     font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     line-height: 24px;
     color: #e0e0e0;

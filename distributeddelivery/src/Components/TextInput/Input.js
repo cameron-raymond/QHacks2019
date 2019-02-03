@@ -14,6 +14,9 @@ export default class Input extends React.Component {
 
   changeValue(event) {
     const value = event.target.value;
+    if(this.props.onKeyChange){
+      this.props.onKeyChange(value)
+    }  
     this.setState({ value });
   }
 
@@ -24,7 +27,9 @@ export default class Input extends React.Component {
     }
   }
   onSubmit(){
-    this.props.onSubmit(this.state.value)
+    if(this.props.onSubmit){
+      this.props.onSubmit(this.state.value)
+    }
   }
 
   render() {

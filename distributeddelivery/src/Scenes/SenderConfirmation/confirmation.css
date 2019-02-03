@@ -1,0 +1,13 @@
+.confTitle{
+    font-size: 30px;
+    color: #e0e0e0;
+    text-align: center
+}
+
+@media screen and (max-width: 769px) {
+    .confTitle{
+      font-size: 20px;
+      color: #e0e0e0;
+      text-align: center;
+    }  
+}
