@@ -43,6 +43,7 @@ export default class UserFlow extends React.Component {
 
     returnEverything = () =>{
         if(this.state.sendOrDrive && this.state.space && this.state.timeFrame && this.state.locations){
+            this.props.onFinished(this.state)
             return JSON.stringify(this.state)
         }
     }
@@ -111,11 +112,6 @@ export default class UserFlow extends React.Component {
                     <img alt={""} src={url('cloud')} style={{ display: 'block', width: '25%', marginLeft: '30%' }} />
                     <img alt={""} src={url('cloud')} style={{ display: 'block', width: '10%', marginLeft: '80%' }} />
                 </ParallaxLayer>
-               
-
-
-
-
             </Parallax>
         )
     }

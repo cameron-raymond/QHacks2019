@@ -4,8 +4,22 @@ import './index.css';
 import UserFlow from './Userflow'
 import * as serviceWorker from './serviceWorker';
 class App extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            sendOrDrive: null,
+            finishedForm: false
+        }
+    };
+    changeFlow = (val) => {
+        val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: true}) : this.setState({sendOrDrive: false,finishedForm: true})
+    }
+
     render(){
-        return <UserFlow/>
+        if (this.state.finishedForm){
+            return this.state.sendOrDrive ? <div><p>sending</p></div> : <div><p>driving</p></div>
+        }
+        return <UserFlow onFinished={this.changeFlow.bind(this)}/>
     }
 }
 

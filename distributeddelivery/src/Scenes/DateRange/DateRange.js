@@ -41,7 +41,7 @@ export default class Map extends React.Component {
                 offset={3}
                 speed={-0}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
-                >
+                
                 {this.returnDateRange()}
 
             </ParallaxLayer>
