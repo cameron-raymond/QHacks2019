@@ -12,11 +12,13 @@ class App extends React.Component{
         super(props);
         this.state = {
             sendOrDrive: null,
+            drivers: null,
             finishedForm: false
         }
     };
     changeFlow = (val) => {
-        val.sendOrDrive === 'sending' ? this.setState({sendOrDrive: true,finishedForm: val}) : this.setState({sendOrDrive: false,finishedForm: val})
+        val.sendOrDrive === 'sending' ? handleForm(val).then(res => this.setState({sendOrDrive: true,finishedForm: val, drivers: res})) : this.setState({sendOrDrive: false,finishedForm: val})
+        console.log(this.state)
     }
 
     // addSender = () => {
@@ -32,9 +34,8 @@ class App extends React.Component{
     // }
 
     render(){
-        if (this.state.finishedForm){
-            handleForm(this.state.finishedForm)
-            return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name}coordinates={this.state.finishedForm.locations}/> : <DriverSuccess/>
+        if (this.state.drivers){
+            return this.state.sendOrDrive ? <SenderConfirmation name={this.state.finishedForm.name} coordinates={this.state.finishedForm.locations} driverInfo={this.state.drivers}/> : <DriverSuccess/>
         }
         return <UserFlow onFinished={this.changeFlow.bind(this)}/>
     }
