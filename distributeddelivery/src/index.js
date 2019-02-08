@@ -19,7 +19,7 @@ class App extends React.Component{
     };
     changeFlow = (val) => {
         console.log("HERE")
-        val.sendOrDrive === 'driving' ? this.setState({sendOrDrive: false,finishedForm: val,drivers:true}) : handleForm(val).then(res => this.setState({finishedForm: val,sendOrDrive: true, drivers: res}))
+        val.sendOrDrive === 'driving' ? handleForm(val).then(res => this.setState({finishedForm: val,sendOrDrive: false, drivers: true})) : handleForm(val).then(res => this.setState({finishedForm: val,sendOrDrive: true, drivers: res}))
     }
     render(){
         if (this.state.drivers){
